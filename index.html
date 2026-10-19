@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Busola Vocațională</title>
+<meta name="description" content="Test de orientare profesională bazat pe RIASEC, Big Five, ancorele lui Schein și alte modele validate. Rulează complet în browser. / Berufsorientierungstest, läuft vollständig im Browser.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230E6B66'/%3E%3Cpath d='M16 5 L20 16 L16 27 L12 16Z' fill='%23fff'/%3E%3Cpath d='M16 5 L20 16 L12 16Z' fill='%23C2462B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <a class="brand" href="./">
+      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><circle cx="16" cy="16" r="14.5" class="b-ring"/><path d="M16 4.5 L20 16 L16 27.5 L12 16Z" class="b-needle-s"/><path d="M16 4.5 L20 16 L12 16Z" class="b-needle-n"/><circle cx="16" cy="16" r="1.8" class="b-hub"/></svg>
+      <span id="brandName">Busola Vocațională</span>
+    </a>
+    <div class="progress" id="progress" hidden><span class="track"><span class="fill"></span></span><span class="ptext"></span></div>
+    <div class="lang" id="langGroup" role="group" aria-label="Limba">
+      <button type="button" data-lang="ro" aria-pressed="true">RO</button>
+      <button type="button" data-lang="de" aria-pressed="false">DE</button>
+    </div>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <noscript><p>Această aplicație are nevoie de JavaScript. / Diese Anwendung benötigt JavaScript.</p></noscript>
+</main>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
+<footer class="foot wrap no-print">
+  <p>Busola Vocațională · Berufskompass · v1 · RIASEC (Holland) · Big Five (Mini-IPIP) · Schein · SCCT · SDT · CAAS</p>
+</footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
