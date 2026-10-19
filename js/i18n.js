@@ -1,12 +1,22 @@
+import { en } from './ui_en.js';
+import { fr } from './ui_fr.js';
+import { it } from './ui_it.js';
+
+export const LANGS = ['ro', 'de', 'en', 'fr', 'it'];
+
 export const UI = {
   ro: {
     appName: 'Busola Vocațională',
     langLabel: 'Limba',
+    dec: ',',
+    locale: 'ro-RO',
     attention: ['Pentru verificarea atenției, alege „Mult” la acest rând.', 'Pentru verificarea atenției, alege „Deloc” la acest rând.'],
     intro: {
       eyebrow: 'Orientare profesională · 8 module · aproximativ 27 de minute',
       lead: 'Un test de orientare în carieră construit pe modele cu zeci de ani de cercetare în spate. Măsoară ce îți place, la ce te simți capabil(ă), la ce nu ai renunța, cum lucrezi, ce te motivează și cum îți conduci cariera. La final primești un raport cu grafice: codul Holland, harta lumii muncii, ancora de carieră, profilul personal și meseriile care ți se potrivesc.',
       privacy: 'Răspunsurile rămân doar în browserul tău. Nu sunt trimise nicăieri; poți să le descarci ca fișier și să le reîncarci mai târziu.',
+      nameLabel: 'Numele persoanei care face testul (opțional)',
+      nameHint: 'Apare doar în raport și în fișierul descărcat.',
       modulesTitle: 'Ce conține testul',
       start: 'Începe testul',
       resume: 'Continuă de unde ai rămas',
@@ -51,6 +61,8 @@ export const UI = {
     },
     report: {
       title: 'Raportul tău',
+      forLabel: 'Persoana evaluată:',
+      demoName: 'Ana Exemplu',
       demoBanner: 'Acesta este un raport exemplu, generat din răspunsuri demonstrative. Nu sunt rezultatele tale.',
       generated: d => `Generat pe ${d}`,
       print: 'Salvează ca PDF',
@@ -131,11 +143,15 @@ export const UI = {
   de: {
     appName: 'Berufskompass',
     langLabel: 'Sprache',
+    dec: ',',
+    locale: 'de-CH',
     attention: ['Bitte wählen Sie zur Kontrolle der Aufmerksamkeit in dieser Zeile «Gern».', 'Bitte wählen Sie zur Kontrolle der Aufmerksamkeit in dieser Zeile «Gar nicht».'],
     intro: {
       eyebrow: 'Berufliche Orientierung · 8 Module · etwa 27 Minuten',
       lead: 'Ein Test zur Laufbahnorientierung, der auf Modellen mit jahrzehntelanger Forschung beruht. Er misst, was Sie gern tun, was Sie sich zutrauen, worauf Sie nicht verzichten würden, wie Sie arbeiten, was Sie motiviert und wie Sie Ihre Laufbahn steuern. Am Schluss erhalten Sie einen Bericht mit Grafiken: Holland-Code, Landkarte der Arbeitswelt, Karriereanker, persönliches Profil und passende Berufe.',
       privacy: 'Ihre Antworten bleiben nur in Ihrem Browser. Sie werden nirgendwohin gesendet; Sie können sie als Datei herunterladen und später wieder laden.',
+      nameLabel: 'Name der Person, die den Test macht (freiwillig)',
+      nameHint: 'Erscheint nur im Bericht und in der heruntergeladenen Datei.',
       modulesTitle: 'Was der Test enthält',
       start: 'Test starten',
       resume: 'Weitermachen, wo Sie aufgehört haben',
@@ -180,6 +196,8 @@ export const UI = {
     },
     report: {
       title: 'Ihr Bericht',
+      forLabel: 'Befragte Person:',
+      demoName: 'Max Muster',
       demoBanner: 'Dies ist ein Beispielbericht aus Demonstrationsantworten. Es sind nicht Ihre Ergebnisse.',
       generated: d => `Erstellt am ${d}`,
       print: 'Als PDF speichern',
@@ -256,4 +274,7 @@ export const UI = {
       scoreScale: '0–100',
     },
   },
+  en,
+  fr,
+  it,
 };

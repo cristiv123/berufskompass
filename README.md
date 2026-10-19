@@ -1,11 +1,15 @@
-# Busola Vocațională · Berufskompass
+# Busola Vocațională · Berufskompass · Career Compass · Boussole de carrière · Bussola professionale
 
-Test de orientare profesională care rulează complet în browser, în română și germană. Răspunsurile rămân pe
-dispozitivul utilizatorului (salvare automată în `localStorage`, export și import `.json`). Nu există server și
-nu se trimit date nicăieri.
+Test de orientare profesională care rulează complet în browser, în cinci limbi: română, germană, engleză,
+franceză și italiană. Răspunsurile rămân pe dispozitivul utilizatorului (salvare automată în `localStorage`,
+export și import `.json`). Nu există server și nu se trimit date nicăieri. Numele persoanei, dacă e introdus,
+apare doar în raport și în fișierul descărcat.
 
-*Ein Test zur beruflichen Orientierung, der vollständig im Browser läuft (Rumänisch und Deutsch). Die Antworten
+*Ein Test zur beruflichen Orientierung, der vollständig im Browser läuft (RO, DE, EN, FR, IT). Die Antworten
 bleiben auf dem Gerät der Person.*
+
+*A career orientation test that runs entirely in the browser (RO, DE, EN, FR, IT). Answers stay on the person's
+device.*
 
 ## Ce măsoară
 
@@ -61,20 +65,23 @@ node tests/scoring.test.mjs
 ## Structură
 
 - `index.html`, `css/style.css`: pagina și stilurile, inclusiv tema întunecată și stilul pentru printare.
-- `js/data.js`: itemii, scalele și meseriile în ambele limbi, generați din sursele documentului PDF.
+- `js/data.js`: itemii, scalele și meseriile în cele cinci limbi, generați din sursele din `tools/`.
 - `js/model.js`: modulele, ordinea itemilor și paginile.
 - `js/scoring.js`: toate calculele, ca funcții pure.
 - `js/charts.js`: graficele SVG.
 - `js/report.js`: raportul final.
-- `js/i18n.js`: textele interfeței și ale raportului.
+- `js/i18n.js`: textele interfeței și ale raportului în română și germană; `js/ui_en.js`, `js/ui_fr.js`,
+  `js/ui_it.js` pentru engleză, franceză și italiană.
 - `js/app.js`: fluxul testului, salvarea, importul și exportul.
 - `js/demo.js`: răspunsurile pentru raportul exemplu.
 - `docs/`: documentul testului, în PDF, în română și germană.
-- `tools/`: scripturile care generează PDF-urile și `js/data.js`. Ca să schimbi o întrebare, editeaz-o în
-  `tools/make_busola_pdf.py` și `tools/make_busola_pdf_de.py`, apoi rulează:
+- `tools/`: sursele itemilor și scripturile care generează PDF-urile și `js/data.js`. Ca să schimbi o
+  întrebare, editeaz-o în toate sursele: `make_busola_pdf.py` (RO), `make_busola_pdf_de.py` (DE),
+  `lang_en.py`, `lang_fr.py`, `lang_it.py`. Apoi rulează:
   ```bash
-  python tools/extract_data.py tools/make_busola_pdf.py tools/make_busola_pdf_de.py js/data.js
+  python tools/extract_data.py js/data.js
   ```
+  Scriptul verifică faptul că toate limbile au aceeași structură și aceleași coduri de meserii.
 
 ## Limite
 

@@ -4,7 +4,8 @@ import { computeResults, band } from './scoring.js';
 import { TYPES, OCC, MODULES, itemText } from './model.js';
 import { radar, worldMap, quadrant, esc } from './charts.js';
 
-const fmt = (v, d = 1) => (v == null ? '–' : v.toFixed(d).replace('.', ','));
+let DEC = ',';
+const fmt = (v, d = 1) => (v == null ? '–' : v.toFixed(d).replace('.', DEC));
 
 function bar(label, value, min, max, color, valText) {
   const pct = value == null ? 0 : Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
@@ -18,14 +19,17 @@ function section(id, title, lead, body) {
 export function renderReport(st, lang) {
   const L = UI[lang], R = L.report, D = DATA[lang];
   const r = computeResults(st);
-  const occName = i => (lang === 'ro' ? OCC[i].ro : OCC[i].de);
+  DEC = L.dec;
+  const occName = i => OCC[i][lang];
   const typeLabel = t => `${t} · ${D.typeName[t]}`;
   const anchorOf = code => D.anchors.find(a => a.code === code);
-  const locale = lang === 'ro' ? 'ro-RO' : 'de-CH';
+  const name = (st.name || '').trim();
   const out = [];
 
   out.push(`<header class="report-head">
-    <div><p class="eyebrow">${esc(L.appName)}</p><h1>${esc(R.title)}</h1><p class="muted">${esc(R.generated(new Date().toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })))}</p></div>
+    <div><p class="eyebrow">${esc(L.appName)}</p><h1>${esc(R.title)}</h1>
+      ${name ? `<p class="report-for">${esc(R.forLabel)} <b>${esc(name)}</b></p>` : ''}
+      <p class="muted">${esc(R.generated(new Date().toLocaleDateString(L.locale, { day: 'numeric', month: 'long', year: 'numeric' })))}</p></div>
     <div class="actions no-print">
       <button class="btn" data-action="print">${esc(R.print)}</button>
       ${st.demo ? '' : `<button class="btn ghost" data-action="download">${esc(R.download)}</button><button class="btn ghost" data-action="edit">${esc(R.editAnswers)}</button>`}

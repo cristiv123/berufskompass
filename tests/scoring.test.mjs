@@ -3,6 +3,7 @@ import { computeResults, pearson, hexDistance, prediger, occVector } from '../js
 import { demoState } from '../js/demo.js';
 import { PAGES, CLOSED_ITEMS, MODULES } from '../js/model.js';
 import { DATA } from '../js/data.js';
+import { UI, LANGS } from '../js/i18n.js';
 
 let passed = 0;
 const test = (name, fn) => { fn(); passed++; console.log('ok -', name); };
@@ -14,9 +15,21 @@ test('item counts match the document', () => {
   assert.equal(new Set(CLOSED_ITEMS.map(i => i.id)).size, CLOSED_ITEMS.length);
 });
 
-test('both languages have the same structure', () => {
-  for (const k of ['b5', 'ctx', 'open', 'anchors', 'sdt', 'adapt']) assert.equal(DATA.ro[k].length, DATA.de[k].length, k);
-  for (const t of 'RIASEC') assert.equal(DATA.ro.int[t].length, DATA.de.int[t].length);
+test('all languages have the same data structure', () => {
+  for (const lang of LANGS) {
+    assert.ok(DATA[lang], lang);
+    for (const k of ['b5', 'ctx', 'open', 'anchors', 'sdt', 'adapt']) assert.equal(DATA[lang][k].length, DATA.ro[k].length, `${lang}.${k}`);
+    for (const t of 'RIASEC') assert.equal(DATA[lang].int[t].length, 8, `${lang}.int.${t}`);
+    for (const o of DATA.occ) assert.ok(o[lang] && o[lang].length > 1, `${lang} occupation`);
+    DATA[lang].b5.forEach((b, i) => assert.deepEqual([b.trait, b.rev], [DATA.ro.b5[i].trait, DATA.ro.b5[i].rev], `${lang}.b5.${i}`));
+  }
+});
+
+test('all languages have the same interface keys', () => {
+  const keys = (o, p = '') => Object.entries(o).flatMap(([k, v]) =>
+    v && typeof v === 'object' && !Array.isArray(v) ? keys(v, `${p}${k}.`) : [`${p}${k}:${Array.isArray(v) ? 'arr' + v.length : typeof v}`]).sort();
+  const ref = keys(UI.ro);
+  for (const lang of LANGS) assert.deepEqual(keys(UI[lang]), ref, lang);
 });
 
 test('hexagon distances', () => {

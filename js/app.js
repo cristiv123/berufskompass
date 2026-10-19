@@ -1,5 +1,5 @@
 import { DATA } from './data.js';
-import { UI } from './i18n.js';
+import { UI, LANGS } from './i18n.js';
 import { MODULES, PAGES, ITEMS, ANCHOR_ITEMS, itemText, pageComplete } from './model.js';
 import { renderReport } from './report.js';
 import { demoState } from './demo.js';
@@ -11,7 +11,8 @@ const main = document.getElementById('main');
 const progressEl = document.getElementById('progress');
 const fileInput = document.getElementById('importFile');
 
-const fresh = () => ({ answers: {}, picks: [], open: {}, times: {}, page: 0, done: false });
+const MAX_NAME = 80;
+const fresh = (name = '') => ({ name, answers: {}, picks: [], open: {}, times: {}, page: 0, done: false });
 
 function load() {
   try {
@@ -24,7 +25,8 @@ function save() {
 }
 
 let state = load() || fresh();
-let lang = state.lang || ((navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'ro');
+const browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+let lang = LANGS.includes(state.lang) ? state.lang : LANGS.includes(browserLang) ? browserLang : 'ro';
 let view = 'intro';
 let demo = null;
 let pageEnter = 0;
@@ -83,6 +85,9 @@ function introView() {
     <p class="eyebrow">${esc(I.eyebrow)}</p>
     <h1>${esc(L().appName)}</h1>
     <p class="lead">${esc(I.lead)}</p>
+    <div class="name-field"><label for="personName">${esc(I.nameLabel)}</label>
+      <input type="text" id="personName" name="personName" maxlength="${MAX_NAME}" autocomplete="name" value="${esc(state.name || '')}">
+      <p class="muted small">${esc(I.nameHint)}</p></div>
     <div class="actions">${primary}<button class="btn ghost" data-action="demo">${esc(I.demo)}</button>
       <button class="btn ghost" data-action="import">${esc(I.import)}</button>${restart}</div>
     ${toast ? `<p class="toast" role="status">${esc(toast)}</p>` : ''}
@@ -96,7 +101,7 @@ function introView() {
 function optionLabels(scale) {
   return D().scales[scale].map(o => {
     const i = o.indexOf(':');
-    return i > 0 ? [o.slice(0, i), o.slice(i + 1).trim()] : [o, ''];
+    return i > 0 ? [o.slice(0, i).trim(), o.slice(i + 1).trim()] : [o, ''];
   });
 }
 
@@ -161,7 +166,8 @@ function testView() {
 
 function render() {
   document.documentElement.lang = lang;
-  document.title = L().appName;
+  const shown = view === 'report' ? (demo || state).name : '';
+  document.title = shown ? `${L().appName} – ${shown}` : L().appName;
   document.getElementById('brandName').textContent = L().appName;
   document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
   document.getElementById('langGroup').setAttribute('aria-label', L().langLabel);
@@ -216,11 +222,12 @@ function back() {
 }
 
 function download() {
-  const data = { app: 'berufskompass', version: 1, savedAt: new Date().toISOString(), lang, answers: state.answers, picks: state.picks, open: state.open, times: state.times };
+  const data = { app: 'berufskompass', version: 1, savedAt: new Date().toISOString(), lang, name: state.name || '', answers: state.answers, picks: state.picks, open: state.open, times: state.times };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `berufskompass-${new Date().toISOString().slice(0, 10)}.json`;
+  const slug = (state.name || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '').toLowerCase();
+  a.download = `berufskompass-${slug ? slug + '-' : ''}${new Date().toISOString().slice(0, 10)}.json`;
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -240,7 +247,8 @@ function sanitizeImport(obj) {
   for (const [id, v] of Object.entries(obj.open || {})) if (ITEMS[id] && ITEMS[id].mod === 'open' && typeof v === 'string') open[id] = v.slice(0, 1500);
   const times = {};
   for (const [k, v] of Object.entries(obj.times || {})) if (/^\d+$/.test(k) && typeof v === 'number' && v > 0) times[k] = Math.min(v, MAX_PAGE_MS * 3);
-  const st = { answers, picks, open, times, page: 0, done: false };
+  const name = typeof obj.name === 'string' ? obj.name.trim().slice(0, MAX_NAME) : '';
+  const st = { name, answers, picks, open, times, page: 0, done: false };
   const fi = firstIncompletePage(st);
   st.done = fi >= PAGES.length;
   st.page = Math.min(fi, PAGES.length - 1);
@@ -270,10 +278,10 @@ main.addEventListener('click', e => {
   const b = e.target.closest('[data-action]');
   if (!b) return;
   switch (b.dataset.action) {
-    case 'start': state = fresh(); save(); go('test'); break;
+    case 'start': state = fresh(state.name); save(); go('test'); break;
     case 'resume': state.page = Math.min(firstIncompletePage(state), PAGES.length - 1); go('test'); break;
     case 'report': demo = null; go('report'); break;
-    case 'demo': demo = demoState(); go('report'); break;
+    case 'demo': demo = { ...demoState(), name: L().report.demoName }; go('report'); break;
     case 'import': fileInput.click(); break;
     case 'restart': confirmRestart = true; render(); break;
     case 'restart-no': confirmRestart = false; render(); break;
@@ -314,6 +322,7 @@ main.addEventListener('change', e => {
 
 main.addEventListener('input', e => {
   if (e.target.tagName === 'TEXTAREA') { state.open[e.target.name] = e.target.value; save(); }
+  else if (e.target.id === 'personName') { state.name = e.target.value.slice(0, MAX_NAME); save(); }
 });
 
 document.addEventListener('visibilitychange', () => {
