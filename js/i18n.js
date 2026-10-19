@@ -1,6 +1,6 @@
-import { en } from './ui_en.js?v=3';
-import { fr } from './ui_fr.js?v=3';
-import { it } from './ui_it.js?v=3';
+import { en } from './ui_en.js?v=4';
+import { fr } from './ui_fr.js?v=4';
+import { it } from './ui_it.js?v=4';
 
 export const LANGS = ['ro', 'de', 'en', 'fr', 'it'];
 

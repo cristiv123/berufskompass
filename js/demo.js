@@ -1,4 +1,4 @@
-import { MODULES, PAGES, ANCHOR_ITEMS } from './model.js?v=3';
+import { MODULES, PAGES, ANCHOR_ITEMS } from './model.js?v=4';
 
 // A plausible example profile (I-C-R, technical expert) used for the clearly marked sample report.
 const TARGET = {

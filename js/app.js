@@ -1,9 +1,9 @@
-import { DATA } from './data.js?v=3';
-import { UI, LANGS } from './i18n.js?v=3';
-import { MODULES, PAGES, ITEMS, ANCHOR_ITEMS, itemText, pageComplete } from './model.js?v=3';
-import { renderReport } from './report.js?v=3';
-import { demoState } from './demo.js?v=3';
-import { esc } from './charts.js?v=3';
+import { DATA } from './data.js?v=4';
+import { UI, LANGS } from './i18n.js?v=4';
+import { MODULES, PAGES, ITEMS, ANCHOR_ITEMS, itemText, pageComplete } from './model.js?v=4';
+import { renderReport } from './report.js?v=4';
+import { demoState } from './demo.js?v=4';
+import { esc } from './charts.js?v=4';
 
 const KEY = 'berufskompass.v1';
 const MAX_PAGE_MS = 10 * 60 * 1000;
@@ -25,8 +25,8 @@ function save() {
 }
 
 let state = load() || fresh();
-const browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
-let lang = LANGS.includes(state.lang) ? state.lang : LANGS.includes(browserLang) ? browserLang : 'ro';
+const DEFAULT_LANG = 'de';
+let lang = LANGS.includes(state.lang) ? state.lang : DEFAULT_LANG;
 let view = 'intro';
 let demo = null;
 let pageEnter = 0;
