@@ -46,6 +46,17 @@ Raportul se poate salva ca PDF din butonul „Salvează ca PDF”, care deschide
 3. Pe GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**. Alege `main` și `/ (root)`, apoi **Save**.
 4. După un minut, aplicația e disponibilă la `https://<utilizator>.github.io/berufskompass/`.
 
+### La fiecare actualizare
+
+GitHub Pages lasă browserele să păstreze fișierele în cache până la 10 minute. Ca vizitatorii să nu primească un
+amestec de fișiere vechi și noi, crește versiunea înainte de commit:
+
+```bash
+python tools/set_version.py 4
+```
+
+Scriptul pune `?v=4` pe toate referințele la CSS și JavaScript.
+
 ## Rulare locală
 
 Aplicația folosește module JavaScript, care nu se încarcă din `file://`. Pornește un server static:

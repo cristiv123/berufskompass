@@ -1,9 +1,9 @@
-import { DATA } from './data.js';
-import { UI, LANGS } from './i18n.js';
-import { MODULES, PAGES, ITEMS, ANCHOR_ITEMS, itemText, pageComplete } from './model.js';
-import { renderReport } from './report.js';
-import { demoState } from './demo.js';
-import { esc } from './charts.js';
+import { DATA } from './data.js?v=3';
+import { UI, LANGS } from './i18n.js?v=3';
+import { MODULES, PAGES, ITEMS, ANCHOR_ITEMS, itemText, pageComplete } from './model.js?v=3';
+import { renderReport } from './report.js?v=3';
+import { demoState } from './demo.js?v=3';
+import { esc } from './charts.js?v=3';
 
 const KEY = 'berufskompass.v1';
 const MAX_PAGE_MS = 10 * 60 * 1000;

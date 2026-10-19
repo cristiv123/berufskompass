@@ -1,4 +1,4 @@
-import { DATA } from './data.js';
+import { DATA } from './data.js?v=3';
 
 export const TYPES = ['R', 'I', 'A', 'S', 'E', 'C'];
 export const OCC = DATA.occ;

@@ -1,5 +1,5 @@
-import { TYPES } from './model.js';
-import { prediger } from './scoring.js';
+import { TYPES } from './model.js?v=3';
+import { prediger } from './scoring.js?v=3';
 
 const f = n => n.toFixed(1);
 export const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

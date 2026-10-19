@@ -1,5 +1,5 @@
-import { TYPES, OCC, MODULES, PAGES, ITEMS, ATTENTION } from './model.js';
-import { DATA } from './data.js';
+import { TYPES, OCC, MODULES, PAGES, ITEMS, ATTENTION } from './model.js?v=3';
+import { DATA } from './data.js?v=3';
 
 const S = DATA.ro;
 

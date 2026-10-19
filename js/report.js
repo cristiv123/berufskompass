@@ -1,8 +1,8 @@
-import { DATA } from './data.js';
-import { UI } from './i18n.js';
-import { computeResults, band } from './scoring.js';
-import { TYPES, OCC, MODULES, itemText } from './model.js';
-import { radar, worldMap, quadrant, esc } from './charts.js';
+import { DATA } from './data.js?v=3';
+import { UI } from './i18n.js?v=3';
+import { computeResults, band } from './scoring.js?v=3';
+import { TYPES, OCC, MODULES, itemText } from './model.js?v=3';
+import { radar, worldMap, quadrant, esc } from './charts.js?v=3';
 
 let DEC = ',';
 const fmt = (v, d = 1) => (v == null ? '–' : v.toFixed(d).replace('.', DEC));
